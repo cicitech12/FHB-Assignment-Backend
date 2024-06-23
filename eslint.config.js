@@ -1,13 +1,24 @@
 import globals from "globals";
-import pluginJs from "@eslint/js";
-import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
-import { fixupConfigRules } from "@eslint/compat";
-
+import js from "@eslint/js";
 
 export default [
-  {files: ["**/*.{js,mjs,cjs,jsx}"]},
-  { languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-  {languageOptions: { globals: globals.browser }},
-  pluginJs.configs.recommended,
-  ...fixupConfigRules(pluginReactConfig),
+  js.configs.recommended,
+  {
+    files: ["**/*.js"],
+    languageOptions: {
+      ecmaVersion: 2021,
+      sourceType: "module",
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+        ...globals.jest,
+      },
+    },
+    rules: {
+      'no-console': 'off',  // Ändere diese Zeile, um console-Statements zu erlauben
+      'quotes': ['error', 'double'],
+      'semi': ['error', 'always'],
+      'no-unused-vars': 'warn',
+    },
+  },
 ];
